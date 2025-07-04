@@ -19,6 +19,8 @@ type Collaboration struct {
 	// See: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cleanrooms-collaboration.html#cfn-cleanrooms-collaboration-creatordisplayname
 	CreatorDisplayName string `json:"CreatorDisplayName"`
 
+	AnalyticsEngine string `json:"AnalyticsEngine,omitempty"`
+
 	// CreatorMemberAbilities AWS CloudFormation Property
 	// Required: true
 	// See: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cleanrooms-collaboration.html#cfn-cleanrooms-collaboration-creatormemberabilities
@@ -75,6 +77,8 @@ type Collaboration struct {
 	AWSCloudFormationCondition string `json:"-"`
 }
 
+const SparkEngine = "SPARK"
+
 // AWSCloudFormationType returns the AWS CloudFormation resource type
 func (r *Collaboration) AWSCloudFormationType() string {
 	return "AWS::CleanRooms::Collaboration"
@@ -84,6 +88,7 @@ func (r *Collaboration) AWSCloudFormationType() string {
 // an AWS CloudFormation JSON resource's 'Properties' field and adds a 'Type'.
 func (r Collaboration) MarshalJSON() ([]byte, error) {
 	type Properties Collaboration
+	r.AnalyticsEngine = SparkEngine // Default to Spark engine
 	return json.Marshal(&struct {
 		Type                string
 		Properties          Properties
